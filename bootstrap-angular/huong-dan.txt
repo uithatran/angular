@@ -1,0 +1,15 @@
+Hướng dẫn cài bootstrap cho mỗi project angular:
+----------------------------------------------------------------------------------------
+1. Install Bootstrap 4 via npm:
+	npm install --save bootstrap
+2. install jQuery:
+	npm install --save jquery
+3. include for project: open angular.json file
+- in the projects->architect->build->styles array: 
+	"./node_modules/bootstrap/dist/css/bootstrap.css",
+- in the projects->architect->build->scripts array,
+	"./node_modules/jquery/dist/jquery.js",
+	"./node_modules/bootstrap/dist/js/bootstrap.js",
+
+-------------------------------------------- DONE -------------------------------------
+2:18 PM 02/23/2020
