@@ -1,0 +1,24 @@
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of events;  index as eventId">
+        <td>
+          <a [routerLink]="['/events',eventId]">{{event.name}}</a>
+        </td>
+        <td>{{event.date}} </td>
+        <td>{{event.time}}</td>
+        <td>{{event.location.address}}, {{event.location.city}}, {{event.location.country}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<h4><a [routerLink]="['']">Go back!!!</a></h4>

@@ -1,0 +1,12 @@
+<h2>Event details</h2>
+<div *ngIf="event">
+    <h3>{{event?.name}}</h3>
+    <p>{{event?.date}}</p>
+    <p>{{event?.time}}</p>
+    <p>{{event?.location.address}}</p>
+    <p>{{event?.location.city}}</p>
+    <p>{{event?.location.country}}</p>
+</div>
+<input id="reviewed" type="checkbox" name="Reviewed" (click)="toggleReviewed()">
+<label for="reviewed">Reviewed</label><br>
+<button (click)="returnToEvents()">Back to Events</button>
