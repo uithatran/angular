@@ -1,0 +1,10 @@
+<div *ngIf="shippingCosts">
+  <div *ngFor="let ship of shippingCosts" class="col-md-4 pt-2">
+    <div class="card">
+      <div class="card-body d-flex">
+        <h5 class="cart-title" [ngStyle]="{'font-size': '30px'}">{{ship.type}}</h5>
+        <h5 class="cart-title ml-auto" [ngStyle]="{'font-size': '30px'}">{{ship.price}}</h5>
+      </div>
+    </div>
+  </div>
+</div>

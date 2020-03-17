@@ -1,0 +1,33 @@
+<div class="card" style="width: 18rem;">
+  <div class="card-header">
+    <h2>My Carts</h2>
+  </div>
+  <div *ngIf="items" class="bg-secondary">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let item of items">
+        <div class="d-flex">
+          <h3>{{item.name}}</h3>
+          <h2 class="ml-auto">{{item.price | currency}}</h2>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="mt-4">
+  <a [routerLink]="['/shipping']">
+    <p [ngStyle]="{'font-size':'1.2rem' }">shipping</p>
+  </a>
+</div>
+<div class="col-md-6 p-0">
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+    <div class="form-group">
+      <label for="name" class="font-weight-bold"><h2>Name</h2></label>
+      <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name">
+    </div>
+    <div class="form-group">
+      <label for="address" class="font-weight-bold"><h2>Address</h2></label>
+      <input type="text" class="form-control" id="address" placeholder="Enter address" formControlName="address">
+    </div>
+    <button type="submit" class="btn btn-primary">Purchase</button>
+  </form>
+</div>

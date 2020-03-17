@@ -8,7 +8,7 @@ import { products } from '../../products';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-
+  title = "Getting started in angular.io";
   products = products;
   constructor() { }
 
@@ -17,6 +17,17 @@ export class ProductListComponent implements OnInit {
 
   share() {
     window.alert("The product has been shared");
+  }
+
+  notifyMe() {
+    window.alert("You will be notified when the product goes on sale");
+  }
+
+  changeTitle(title) {
+    this.title = title;
+  }
+  displayCounter(count) {
+    console.log(count);
   }
 
 }
