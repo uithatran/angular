@@ -1,0 +1,65 @@
+<div class="container m-3">
+  <div class="d-flex flex-column col-md-6 offset-md-3">
+    <h1 class="font-weight-normal" [ngStyle]="{'text-align': 'center'}">Create user</h1>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="d-flex flex-column">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input class="form-control" id="email" formControlName="email" type="email"
+            [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+          <!-- error -->
+          <div class="invalid-feedback" *ngIf="submitted && f.email.errors?.required">
+            Enter your email.
+          </div>
+          <div class="invalid-feedback" *ngIf="submitted && f.email.errors?.pattern">
+            Enter valid email.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input class="form-control" id="password" formControlName="password" type="password"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input class="form-control" id="name" formControlName="name" type="text"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+          <!-- error -->
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Name is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input class="form-control" id="phone" formControlName="phone" type="text"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+          <!-- error -->
+          <div class="invalid-feedback" *ngIf="submitted && f.phone.errors?.required">
+            Enter your phone number.
+          </div>
+          <div class="invalid-feedback" *ngIf="submitted && f.phone.errors?.pattern">
+            Enter Numbers Only
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword3">Position</label>
+          <select class="custom-select form-control" (change)="updatePosition($event.target.value)"
+            formControlName="position" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+            <option value="">Choose...</option>
+            <option *ngFor="let uPosition of userPosition" value="{{uPosition}}">{{uPosition}}</option>
+          </select>
+          <!-- error -->
+          <div class="invalid-feedback" *ngIf="submitted && f.position.errors?.required">
+            Choose position.
+          </div>
+        </div>
+        <button class="btn btn-lg btn-primary align-items-center mr-5 px-4 py-1 ml-auto">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
