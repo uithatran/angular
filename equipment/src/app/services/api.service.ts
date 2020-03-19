@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 })
 export class ApiService {
   baseUri: string = 'http://localhost:3000/api';
-  // headers = new HttpHeaders().set('Content-Type', 'application/json');
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private httpClient: HttpClient,
@@ -30,6 +30,28 @@ export class ApiService {
         catchError(this.errorMgmt)
       )
   }
+
+  getUser(id): Observable<any> {
+    let url = `${this.baseUri}/users/update/${id}`
+    return this.httpClient.get(url);
+  }
+
+  // Update employee
+  updateUser(id, data): Observable<any> {
+    let url = `${this.baseUri}users/update/${id}`;
+    return this.httpClient.put(url, data, { headers: this.headers }).pipe(
+      catchError(this.errorMgmt)
+    )
+  }
+
+    // Delete employee
+    deleteUser(id): Observable<any> {
+      let url = `${this.baseUri}users/delete/${id}`;
+      return this.httpClient.put(url, { headers: this.headers }).pipe(
+        catchError(this.errorMgmt)
+      )
+    }
+
 
   // Error handling 
   errorMgmt(error: HttpErrorResponse) {

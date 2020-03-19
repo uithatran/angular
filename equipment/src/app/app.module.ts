@@ -20,7 +20,7 @@ const routes: Routes = ([
   { path: '', pathMatch: 'full', redirectTo: 'create-employee' },
   { path: 'users', component: UserListComponent },
   { path: 'users/create', component: UserCreateComponent },
-  { path: 'users/edit', component: UserEditComponent },
+  { path: 'users/edit/:id', component: UserEditComponent },
   { path: 'equipment/create', component: EquipmentCreateComponent },
 
 ]);

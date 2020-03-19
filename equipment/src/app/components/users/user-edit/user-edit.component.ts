@@ -1,39 +1,93 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import { ApiService } from './../../../services/api.service';
+import { User } from '../../../models/user.model'
+import { Component, OnInit, NgZone } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 @Component({
   selector: 'app-user-edit',
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.css']
 })
 export class UserEditComponent implements OnInit {
-  registerForm: FormGroup;
   submitted = false;
+  userData: User[];
+  editForm: FormGroup;
+  userPosition: any = ['Guest', 'Admin']
 
-  constructor(private formBuilder: FormBuilder) { }
-
-  ngOnInit() {
-      this.registerForm = this.formBuilder.group({
-          firstName: ['', Validators.required],
-          lastName: ['', Validators.required],
-          email: ['', [Validators.required, Validators.email]],
-          password: ['', [Validators.required, Validators.minLength(6)]],
-          confirmPassword: ['', Validators.required]
-      });
+  constructor(
+    public fb: FormBuilder,
+    private router: Router,
+    private actRoute: ActivatedRoute,
+    private ngZone: NgZone,
+    private apiService: ApiService
+  ) {
+    this.mainForm();
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
+  ngOnInit(
+
+  ) {
+    this.mainForm();
+    let id = this.actRoute.snapshot.paramMap.get('id');
+    this.getUser(id);
+    this.editForm = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      position: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
+    })
+  }
+
+  mainForm() {
+    this.editForm = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      position: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
+    })
+  }
+
+  getUser(id) {
+    this.apiService.getUser(id).subscribe(data => {
+      this.editForm.setValue({
+        name: data['name'],
+        email: data['email'],
+        password: data['password'],
+        phone: data['phone'],
+        position: data['position'],
+      });
+    });
+  }
+
+  // Choose designation with select dropdown
+  updateProfile(e) {
+    this.editForm.get('designation').setValue(e, {
+      onlySelf: true
+    })
+  }
+
+  // Getter to access form control
+  get myForm() {
+    return this.editForm.controls;
+  }
 
   onSubmit() {
-      this.submitted = true;
-
-      // stop here if form is invalid
-      if (this.registerForm.invalid) {
-          return;
+    this.submitted = true;
+    if (!this.editForm.valid) {
+      return false;
+    } else {
+      if (window.confirm('Are you sure?')) {
+        let id = this.actRoute.snapshot.paramMap.get('id');
+        this.apiService.updateUser(id, this.editForm.value).subscribe(
+          (res) => {
+            console.log('Employee successfully created!')
+            this.ngZone.run(() => this.router.navigateByUrl('/employees-list'))
+          }, (error) => {
+            console.log(error);
+          });
       }
-
-      alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
+    }
   }
-
 }

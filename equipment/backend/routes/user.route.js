@@ -12,10 +12,15 @@ router.get('/detail/:id', controller.userView);
 // router.get('/create', middlewareAdmin.checkAdmin, controller.getCreate);
 // router.get('/create', controller.getCreate);
 router.get('/search', controller.search);
-router.get('/delete/:id', middlewareAdmin.checkAdmin, controller.delete);
+router.get('/delete/:id', controller.delete);
+// router.get('/delete/:id', middlewareAdmin.checkAdmin, controller.delete);
 
 // router.post('/create', validateUser.postCreate, controller.postCreate);
 router.post('/create', controller.postCreate);
+
+router.get('/update/:id', controller.getUpdate);
+router.post('/update/:id', controller.postUpdate);
+
 
 
 module.exports = router;

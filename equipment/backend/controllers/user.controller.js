@@ -1,4 +1,4 @@
-var Usermodel = require('../models/user.model');
+var UserModel = require('../models/user.model');
 var EquipmentModel = require('../models/equipment.model');
 
 var md5 = require('md5');
@@ -10,7 +10,7 @@ module.exports.index = async (req, res) => {
   var start = (page - 1) * perPage;
   var end = page * perPage;
   var totalPage;
-  const users = await Usermodel.find((err, data) => {
+  await UserModel.find((err, data) => {
     if (err) {
       console.log("error in get User");
       return next(err);
@@ -18,7 +18,7 @@ module.exports.index = async (req, res) => {
       totalPage = Object.keys(data).length / perPage;
       totalPage = (totalPage > parseInt(totalPage) ? parseInt(totalPage) + 1 : totalPage);
       // data = data.slice(start,end);
-      res.json({data,totalPage});
+      res.json({ data, totalPage });
     }
   });
 
@@ -35,7 +35,7 @@ module.exports.userView = function (req, res) {
       }
     })
 
-    var user = await Usermodel.findById(id, function (err, user) {
+    var user = await UserModel.findById(id, function (err, user) {
       if (err) {
         console.error(err);
       } else {
@@ -57,7 +57,7 @@ module.exports.getCreate = function (req, res) {
 // 3.Query parameters
 module.exports.search = function (req, res) {
   var q = req.query.q;
-  Usermodel.find(function (err, user) {
+  UserModel.find(function (err, user) {
     if (err) {
       res.send("Error in use.controller.search");
     } else {
@@ -73,13 +73,14 @@ module.exports.search = function (req, res) {
   })
 }
 
+// DELETE user
 module.exports.delete = function (req, res) {
   userDeleteId = { _id: req.params.id };
-  Usermodel.deleteOne(userDeleteId, function (err) {
+  UserModel.deleteOne(userDeleteId, function (err) {
     if (err) {
       res.send(err);
     } else {
-      res.redirect('/users');
+      res.send("delete success");
     }
   })
 }
@@ -93,7 +94,7 @@ module.exports.postCreate = function (req, res) {
     position: req.body.position,
   }
 
-  Usermodel.create(user, function (err, user) {
+  UserModel.create(user, function (err, user) {
     if (err) {
       console.error(err);
       return res.status(500).send();
@@ -102,4 +103,43 @@ module.exports.postCreate = function (req, res) {
       res.send('123123');
     }
   })
+}
+
+// PUT UPDATE
+module.exports.getUpdate = async (req, res) => {
+  var id = req.params.id;
+  await UserModel.findById(id, (err, user) => {
+    if (err) {
+      return res.status(500).send();
+    } else {
+      res.json(user);
+    }
+  })
+}
+
+module.exports.postUpdate = function (req, res) {
+  console.log(req.body);
+  // if (req.body.userSelectedId == undefined) {
+  //   console.log("out");
+  // }
+  // req.body.status == '1' ? true : false;
+  var set = {
+    name: req.body.name,
+    phone: req.body.phone,
+    password: req.body.password,
+  }
+  EquipmentModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: {
+      name: req.body.name,
+      phone: req.body.phone,
+      password: req.body.password,
+    } }, { new: true },
+    function (err, newEquipment) {
+      if (err) {
+        console.log('error occured');
+      } else {
+        res.send("Update Success" + newEquipment);
+      }
+    });
 }

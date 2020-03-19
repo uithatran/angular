@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    private actRoute: ActivatedRoute,
   ) {
     this.readUsers();
   }
@@ -34,4 +36,12 @@ export class UserListComponent implements OnInit {
     })
   }
 
+  deleteUser(id) {
+    // let id = this.actRoute.snapshot.paramMap.get('id');
+    this.apiService.deleteUser(id).subscribe((res) => {
+      console.log("Delete success, res: " + res);
+    }, (error) => {
+      console.log(error);
+    });
+  }
 }
