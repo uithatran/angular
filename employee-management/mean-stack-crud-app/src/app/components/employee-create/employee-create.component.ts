@@ -25,14 +25,14 @@ export class EmployeeCreateComponent implements OnInit {
 
   ngOnInit() { }
 
-  mainForm() {
-    this.employeeForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      designation: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
-    })
-  }
+    mainForm() {
+      this.employeeForm = this.fb.group({
+        name: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+        designation: ['', [Validators.required]],
+        phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
+      })
+    }
 
   // Choose designation with select dropdown
   updateProfile(e) {
@@ -54,7 +54,7 @@ export class EmployeeCreateComponent implements OnInit {
       this.apiService.createEmployee(this.employeeForm.value).subscribe(
         (res) => {
           console.log('Employee successfully created!')
-          this.ngZone.run(() => this.router.navigateByUrl('/employees-list'))
+          this.ngZone.run(() => this.router.navigateByUrl('/'))
         }, (error) => {
           console.log(error);
         });
