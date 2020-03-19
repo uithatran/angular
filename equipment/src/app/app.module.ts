@@ -15,13 +15,21 @@ import { EquipmentEditComponent } from './components/equipments/equipment-edit/e
 import { UserListComponent } from './components/users/user-list/user-list.component';
 import { UserCreateComponent } from './components/users/user-create/user-create.component';
 import { UserEditComponent } from './components/users/user-edit/user-edit.component';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+
 
 const routes: Routes = ([
   { path: '', pathMatch: 'full', redirectTo: 'create-employee' },
   { path: 'users', component: UserListComponent },
   { path: 'users/create', component: UserCreateComponent },
   { path: 'users/edit/:id', component: UserEditComponent },
+  { path: 'users/delete/:id', component: UserEditComponent },
+  { path: 'users/details/:id', component: UserDetailsComponent },
+  { path: 'equipments', component: EquipmentListComponent },
   { path: 'equipment/create', component: EquipmentCreateComponent },
+  { path: 'auth/login', component: LoginComponent },
 
 ]);
 
@@ -34,7 +42,10 @@ const routes: Routes = ([
     EquipmentEditComponent,
     UserListComponent,
     UserCreateComponent,
-    UserEditComponent
+    UserEditComponent,
+    SignupComponent,
+    LoginComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,

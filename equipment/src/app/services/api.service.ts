@@ -12,7 +12,6 @@ export class ApiService {
 
   constructor(
     private httpClient: HttpClient,
-    // private httpHeaders: HttpHeaders,
   ) { }
 
   // Get all Users
@@ -23,7 +22,7 @@ export class ApiService {
 
   // Create User
   createUser(data): Observable<any> {
-    console.log("data BE: " + data);
+    // console.log("data BE: " + data);
     let url = `${this.baseUri}/users/create`;
     return this.httpClient.post(url, data)
       .pipe(
@@ -38,19 +37,20 @@ export class ApiService {
 
   // Update employee
   updateUser(id, data): Observable<any> {
-    let url = `${this.baseUri}users/update/${id}`;
-    return this.httpClient.put(url, data, { headers: this.headers }).pipe(
+    let url = `${this.baseUri}/users/update/${id}`;
+    return this.httpClient.post(url, data)
+    .pipe(
       catchError(this.errorMgmt)
     )
   }
 
-    // Delete employee
-    deleteUser(id): Observable<any> {
-      let url = `${this.baseUri}users/delete/${id}`;
-      return this.httpClient.put(url, { headers: this.headers }).pipe(
-        catchError(this.errorMgmt)
-      )
-    }
+  // Delete employee
+  deleteUser(id): Observable<any> {
+    let url = `${this.baseUri}/users/delete/${id}`;
+    return this.httpClient.delete(url, { headers: this.headers }).pipe(
+      catchError(this.errorMgmt)
+    )
+  }
 
 
   // Error handling 

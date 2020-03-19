@@ -12,6 +12,11 @@
         </form>
       </div>
     </div>
+    <div class="success" *ngIf="success">
+      <div class="alert alert-success">
+        {{success.success}}
+      </div>
+    </div>
     <div>
       <!-- No data message -->
       <p *ngIf="Users.length <= 0" class="no-data text-center mt-3">There is no employee added yet!</p>
@@ -27,17 +32,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of Users">
+          <tr *ngFor="let user of Users; let i = index">
             <td scope="row">{{user.name}}</td>
             <td scope="row">{{user.phone}}</td>
-            <td scope="row"><a href="">View details...</a></td>
+            <td scope="row"><a [routerLink]="['/users/details', user._id]">View details...</a></td>
             <td scope="row">
-              <a class="edit px-2" [routerLink]="['/users/edit/', user._id]" >
+              <a class="edit px-2" [routerLink]="['/users/edit/', user._id]">
                 <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
               </a>
-              <span type="button" (onclick)="deleteUser(user._id)">
-                <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-              </span>
+              <!-- <button (click)="deleteUser(user._id, i)"> -->
+              <a class="delete px-2" (click)="deleteUser(user._id, i)">
+                <!-- BTN -->
+                <i class="material-icons icon-red" data-toggle="tooltip" title="Delete">&#xE872;</i>
+              </a>
+              <!-- </button> -->
             </td>
           </tr>
         </tbody>

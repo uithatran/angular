@@ -1,7 +1,7 @@
 
 module.exports.login = function (req, res) {
-    // res.send("Auth Login");
-    res.render('auth/login');
+  // res.send("Auth Login");
+  res.render('auth/login');
 }
 
 module.exports.logout = function (req, res) {
@@ -11,7 +11,6 @@ module.exports.logout = function (req, res) {
 }
 
 module.exports.postLogin = function (req, res) {
-    // Checked insite auth.validate
-    console.log("auth.controller.postLogin");
-    res.redirect('/users');
+  var success = {success: "Login success"};
+  return res.status(200).json(success);
 }

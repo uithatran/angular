@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./user-create.component.css']
 })
 export class UserCreateComponent implements OnInit {
+  error;
   submitted = false;
   userForm: FormGroup;
   userPosition: any = ['Guest', 'Admin']
@@ -18,12 +19,7 @@ export class UserCreateComponent implements OnInit {
     private router: Router,
     private ngZone: NgZone,
     private apiService: ApiService
-  ) {
-    // Khoi tao mainForm
-    
-  }
-
-
+  ) {}
   ngOnInit() {this.mainForm(); }
 
   mainForm() {
@@ -49,19 +45,18 @@ export class UserCreateComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.userForm.invalid) {
-      console.log(this.userForm.value);
-      console.log("submitted: " + this.submitted);
       return false;
     } else {
       this.apiService.createUser(this.userForm.value).subscribe(
-        (res) => {
-          console.log("User successfully created");
+        () => {
+          // console.log("User successfully created");
           this.ngZone.run(() => this.router.navigateByUrl('/users'))
         }, (error) => {
+           
           console.log(error);
         }
       )
-      console.log(this.userForm.value);
+      // console.log(this.userForm.value);
     }
   }
 }

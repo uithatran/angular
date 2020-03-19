@@ -63,7 +63,7 @@ export class UserEditComponent implements OnInit {
 
   // Choose designation with select dropdown
   updateProfile(e) {
-    this.editForm.get('designation').setValue(e, {
+    this.editForm.get('position').setValue(e, {
       onlySelf: true
     })
   }
@@ -76,14 +76,16 @@ export class UserEditComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (!this.editForm.valid) {
+      console.log("false");
       return false;
     } else {
       if (window.confirm('Are you sure?')) {
         let id = this.actRoute.snapshot.paramMap.get('id');
         this.apiService.updateUser(id, this.editForm.value).subscribe(
           (res) => {
-            console.log('Employee successfully created!')
-            this.ngZone.run(() => this.router.navigateByUrl('/employees-list'))
+            // console.log('Employee successfully created!')
+            this.router.navigateByUrl('/users')
+            console.log('Content updated successfully!')
           }, (error) => {
             console.log(error);
           });

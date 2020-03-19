@@ -1,1 +1,35 @@
-<p>equipment-list works!</p>
+<div class="container mt-5">
+  <div class="title d-flex bg-secondary p-3">
+    <div class="title-left col-sm-6">
+      <h3>Manage Equipments</h3>
+    </div>
+    <div class="title-right d-flex justify-content-end col-sm-6"><a class="btn btn-success" href="/equipments/create"><i
+          class="material-icons">&#xE147;</i><span>Add New Employee</span></a><a class="btn btn-danger"
+        href="#deleteEmployeeModal" data-toggle="modal"><i class="material-icons">&#xE15C;</i><span>Delete</span></a>
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="col-ms-1" scope="col"><span class="custom-checkbox"><input id="selectAll" type="checkbox" /><label
+              for="selectAll"></label></span></th>
+        <th class="col-ms-2" scope="col">Name</th>
+        <th class="col-ms-4" scope="col">Description</th>
+        <th class="col-ms-2" scope="col">Status</th>
+        <th class="col-ms-1" scope="col">Type</th>
+        <th class="col-ms-1 px-4" scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="custom-checkbox"><input type="checkbox" /><label></label></span></td>
+        <td>equipment.name</td>
+        <td>equipment.description</td>
+        <td>123</td>
+        <td>equipment.type.toUpperCase()</td>
+        <td class="d-flex p-0 actions"><a class="edit" href="" equipment.id="equipment.id"><i class="material-icons"
+              data-toggle="tooltip" title="Edit">&#xE254;</i></a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

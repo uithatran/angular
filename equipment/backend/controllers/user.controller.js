@@ -46,7 +46,6 @@ module.exports.userView = function (req, res) {
       equipments: equipments,
     })
   }
-
   equipmentFunction();
 }
 
@@ -76,15 +75,18 @@ module.exports.search = function (req, res) {
 // DELETE user
 module.exports.delete = function (req, res) {
   userDeleteId = { _id: req.params.id };
-  UserModel.deleteOne(userDeleteId, function (err) {
+  UserModel.deleteOne(userDeleteId, function (err, data) {
     if (err) {
       res.send(err);
     } else {
-      res.send("delete success");
+      res.status(200).json({
+        success: { success: "Delete success!!" },
+      })
     }
   })
 }
 
+// CREATE user
 module.exports.postCreate = function (req, res) {
   var user = {
     name: req.body.name,
@@ -93,13 +95,14 @@ module.exports.postCreate = function (req, res) {
     phone: req.body.phone,
     position: req.body.position,
   }
-
   UserModel.create(user, function (err, user) {
     if (err) {
       console.error(err);
-      return res.status(500).send();
+      return res.status(500).json({
+        error: { error: "Error create user" },
+      });
     } else {
-      console.log("daden");
+      // console.log("daden");
       res.send('123123');
     }
   })
@@ -116,30 +119,22 @@ module.exports.getUpdate = async (req, res) => {
     }
   })
 }
-
 module.exports.postUpdate = function (req, res) {
-  console.log(req.body);
-  // if (req.body.userSelectedId == undefined) {
-  //   console.log("out");
-  // }
-  // req.body.status == '1' ? true : false;
-  var set = {
-    name: req.body.name,
-    phone: req.body.phone,
-    password: req.body.password,
-  }
-  EquipmentModel.findOneAndUpdate(
+  UserModel.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: {
-      name: req.body.name,
-      phone: req.body.phone,
-      password: req.body.password,
-    } }, { new: true },
-    function (err, newEquipment) {
+    {
+      $set: {
+        name: req.body.name,
+        phone: req.body.phone,
+        password: md5(req.body.password),
+        position: req.body.position,
+      }
+    },
+    (err, data) => {
       if (err) {
         console.log('error occured');
       } else {
-        res.send("Update Success" + newEquipment);
+        res.send(data)
       }
     });
 }

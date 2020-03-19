@@ -16,6 +16,7 @@ var middlewareAdmin = require('./middlewares/admin.middleware');
 // getting-started.js
 var mongoose = require('mongoose');
 // , useUnifiedTopology: true  // Ben trong mongoose.connect
+mongoose.set('useFindAndModify', false);
 mongoose.connect('mongodb://localhost/express-demo', { useNewUrlParser:true, useUnifiedTopology: true});
 
 const app = express()
@@ -46,10 +47,11 @@ app.use(express.static('public'));
 // })
 
 app.get('/', function (req, res) {
-  res.render('index');
+  // res.render('index');
+  res.send("Hello World");
 })
 
-app.use('/auth', authRoute);
+app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 // app.use('/api/users', middlewareAuth.requireAuth, userRoute);
 app.use('/api/equipments', equipmentRoute);
