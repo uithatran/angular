@@ -8,8 +8,8 @@ const db = require("./models");
 const Role = db.role;
 const dbConfig = require('./config/db.config');
 
-const authRoute = require('./routes/auth.routes');
-const userRoute = require('./routes/user.routes');
+// const authRoute = require('./routes/auth.routes');
+// const userRoute = require('./routes/user.routes');
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -43,16 +43,16 @@ app.get("/", (req, res) => {
 });
 
 // routes
-app.use(authRoute);
-app.use(userRoute);
+// routes
+// var a = require('./routes/auth.routes')
+require('./routes/auth.routes')(app);
+require('./routes/user.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-
 
 function initial() {
   Role.estimatedDocumentCount((err, count) => {
