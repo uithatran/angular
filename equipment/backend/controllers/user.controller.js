@@ -94,6 +94,7 @@ module.exports.postCreate = function (req, res) {
     password: md5(req.body.password),
     phone: req.body.phone,
     position: req.body.position,
+    roles: req.body.roles
   }
   UserModel.create(user, function (err, user) {
     if (err) {

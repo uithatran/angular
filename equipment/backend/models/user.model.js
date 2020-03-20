@@ -7,6 +7,12 @@ var userSchema = new mongoose.Schema({
   password: {type: String, required: true},
   phone: {type: String, trim: true, required: true},
   position: {type: String},
+  roles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Role"
+    }
+  ]
 }, {
   collection: 'users'
 });
