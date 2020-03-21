@@ -17,7 +17,19 @@ var middlewareAdmin = require('./middlewares/admin.middleware');
 var mongoose = require('mongoose');
 // , useUnifiedTopology: true  // Ben trong mongoose.connect
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://localhost/express-demo', { useNewUrlParser:true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost/express-demo', { useNewUrlParser:true, useUnifiedTopology: true})
+.then(() => {
+  console.log("Successfully connect to MongoDB.");
+  initial();
+})
+.catch(err => {
+  console.error("Connection error", err);
+  process.exit();
+});
+
+
+const db = require("./models");
+const Role = db.role;
 
 const app = express()
 const port = 3000
@@ -58,3 +70,40 @@ app.use('/api/equipments', equipmentRoute);
 // app.use('/api/equipments', middlewareAuth.requireAuth, middlewareAdmin.checkAdmin, equipmentRoute);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+// Add ROLES
+function initial() {
+  Role.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      new Role({
+        name: "user"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'user' to roles collection");
+      });
+
+      new Role({
+        name: "moderator"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'moderator' to roles collection");
+      });
+
+      new Role({
+        name: "admin"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'admin' to roles collection");
+      });
+    }
+  });
+}

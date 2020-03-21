@@ -4,10 +4,11 @@ var middlewareAdmin = require('../middlewares/admin.middleware');
 
 var controller = require('../controllers/user.controller');
 var validateUser = require('../validate/user.validate');
+var authJwtRole = require('../middlewares/auth.jwt')
 
 var router = express.Router();
 
-router.get('/', controller.index);
+router.get('/', authJwtRole.verifyToken, authJwtRole.isAdmin, controller.index);
 router.get('/detail/:id', controller.userView);
 // router.get('/create', middlewareAdmin.checkAdmin, controller.getCreate);
 // router.get('/create', controller.getCreate);

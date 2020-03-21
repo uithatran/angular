@@ -18,6 +18,7 @@ import { UserEditComponent } from './components/users/user-edit/user-edit.compon
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 const routes: Routes = ([
@@ -46,6 +47,7 @@ const routes: Routes = ([
     SignupComponent,
     LoginComponent,
     UserDetailsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

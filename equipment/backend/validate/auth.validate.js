@@ -1,20 +1,22 @@
-// var db = require('../db');
+var jwt = require("jsonwebtoken");
 var md5 = require('md5');
-var userModel = require('../models/user.model');
 
+var config = require("../config/auth.config");
+var User = require('../models/user.model');
+var Role = require('../models/role.model')
+
+
+// LOGIN
 module.exports.postLogin = async (req, res, next) => {
-  console.log("enter");
-  // res.send("enter");
-  // var email = req.body.email;
-  //hashed
   var password = md5(req.body.password);
-  var user;
-  await userModel.findOne({ email: req.body.email }, function (err, user) {
+  //hashed
+  await User.findOne({ email: req.body.email }, function (err, user) {
     if (err) {
       res.send(err);
     } else {
-      // console.log("user begin: " + user);
+      // var password = md5(req.body.password);
       if (!user) {
+        // return res.status(404).send({ message: "User Not found." });
         return res.json(
           { 'error': 'User does not exist' }
         )
@@ -25,9 +27,83 @@ module.exports.postLogin = async (req, res, next) => {
       }
     }
     // console.log('save id into cookies');
-    console.log(user._id);
-    res.cookie('userId', user._id, { signed: true });
+    var token = jwt.sign({ id: user._id }, config.secret, {
+      expiresIn: 86400 // 24 hours
+    });
+    // console.log(user._id);
+    // res.cookie('userId', user._id, { signed: true });
     // res.cookie('isAdmin', user.isAdmin, { signed: true });
-    next();
+
+    var authorities = [];
+
+    for (let i = 0; i < user.roles.length; i++) {
+      authorities.push("ROLE_" + user.roles[i].name);
+    }
+    res.status(200).send({
+      id: user._id,
+      name: user.username,
+      email: user.email,
+      roles: authorities,
+      accessToken: token
+    });
+    // next();
   })
 }
+
+
+// SIGNUP
+exports.signup = (req, res) => {
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 8)
+  });
+
+  user.save((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+
+    if (req.body.roles) {
+      Role.find(
+        {
+          name: { $in: req.body.roles }
+        },
+        (err, roles) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+
+          user.roles = roles.map(role => role._id);
+          user.save(err => {
+            if (err) {
+              res.status(500).send({ message: err });
+              return;
+            }
+
+            res.send({ message: "User was registered successfully!" });
+          });
+        }
+      );
+    } else {
+      Role.findOne({ name: "user" }, (err, role) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+
+        user.roles = [role._id];
+        user.save(err => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+
+          res.send({ message: "User was registered successfully!" });
+        });
+      });
+    }
+  });
+};
