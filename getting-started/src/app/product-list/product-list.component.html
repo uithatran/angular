@@ -1,0 +1,13 @@
+<h4 class="text-secondary">Products</h4>
+
+<div class="mb-2" *ngFor="let product of products; index as productId">
+    <h5>
+        <a [routerLink]="['/products', productId]" [title]="product.name +'details'">{{product.name}}</a>
+    </h5>
+    <div *ngIf="product.description">
+        <p class="m-0">{{product.description}}</p>
+    </div>
+    <button class="btn btn-primary py-1 px-3" (click)="share()">Share</button>
+
+    <app-product-alerts [product]="product" (notify)= "onNotify()"></app-product-alerts>
+</div>

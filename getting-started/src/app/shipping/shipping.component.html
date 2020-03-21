@@ -1,0 +1,17 @@
+<div class="container">
+    <div>
+        Shipping Prices
+    </div>
+    <table class="table table-bordered border-0 m-0" style="width:17em">
+        <tr *ngFor="let shippingCost of shippingCosts | async" >
+            <td class="d-flex justify-content-between bg-light border-0 mb-2 py-3 px-4">
+                <span>{{shippingCost.type}}</span>
+                <p class="m-0">{{shippingCost.price | currency}}</p>
+            </td>
+        </tr>
+    </table>
+    <!-- <div class="shipping-item" *ngFor="let shipping of shippingCosts | async">
+        <span>{{ shipping.type }}</span>
+        <span>{{ shipping.price | currency }}</span>
+      </div> -->
+</div>
