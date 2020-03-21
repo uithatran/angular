@@ -31,3 +31,6 @@ https://blog.angular-university.io/angular-jwt-authentication/
 
 ## MEAN Stack Angular 6 CRUD Web Application:
 https://www.djamware.com/post/5b00bb9180aca726dee1fd6d/mean-stack-angular-6-crud-web-application
+
+## LEARN: Node.js & JWT – Token Based Authentication & Authorization example
+https://bezkoder.com/node-js-jwt-authentication-mysql/ 
