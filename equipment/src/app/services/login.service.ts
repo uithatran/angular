@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { JwtResponse } from './jwt-responsive';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   baseUri: string = 'http://localhost:3000/api/auth';
+  authSubject  =  new  BehaviorSubject(false);
   constructor(
     private httpClient: HttpClient,
   ) { }
@@ -17,7 +20,8 @@ export class LoginService {
     return this.httpClient.post(url, data)
       .pipe(
         catchError(this.errorMgmt)
-      )
+        )
+
   }
 
   // Error handling 

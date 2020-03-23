@@ -3,6 +3,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,10 +15,18 @@ export class ApiService {
     private httpClient: HttpClient,
   ) { }
 
+  getAccessToken() {
+    return localStorage.getItem('ACCESS_TOKEN');
+  }
+
   // Get all Users
   getUsers() {
     let url = `${this.baseUri}/users`;
-    return this.httpClient.get(url);
+    let token = this.getAccessToken();
+    var access_token = new HttpHeaders().set('x-access-token', token);
+    return this.httpClient.get(url, { headers: access_token }).pipe(
+      catchError(this.errorMgmt)
+    )
   }
 
   // Create User
@@ -39,9 +48,9 @@ export class ApiService {
   updateUser(id, data): Observable<any> {
     let url = `${this.baseUri}/users/update/${id}`;
     return this.httpClient.post(url, data)
-    .pipe(
-      catchError(this.errorMgmt)
-    )
+      .pipe(
+        catchError(this.errorMgmt)
+      )
   }
 
   // Delete employee

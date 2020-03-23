@@ -14,10 +14,14 @@ module.exports.postLogin = async (req, res, next) => {
     if (err) {
       res.send(err);
     } else {
+  // console.log(req.body);
+
       // var password = md5(req.body.password);
       if (!user) {
+  console.log(123);
+
         // return res.status(404).send({ message: "User Not found." });
-        return res.json(
+          return res.json(
           { 'error': 'User does not exist' }
         )
       } else if (user.password != password) {
@@ -37,14 +41,16 @@ module.exports.postLogin = async (req, res, next) => {
     var authorities = [];
 
     for (let i = 0; i < user.roles.length; i++) {
+      console.log(user.roles[i].name);
       authorities.push("ROLE_" + user.roles[i].name);
     }
+    console.log("123123");
     res.status(200).send({
       id: user._id,
       name: user.username,
       email: user.email,
       roles: authorities,
-      accessToken: token
+      access_token: token
     });
     // next();
   })

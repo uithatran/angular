@@ -35,7 +35,6 @@ export class UserListComponent implements OnInit {
       var obj = JSON.parse(json);
       this.Users = obj.data;
       this.Paginations = obj.totalPage;
-      // console.log(this.Paginations)
     })
   }
 
@@ -47,7 +46,7 @@ export class UserListComponent implements OnInit {
         var json = JSON.stringify(data);
         var obj = JSON.parse(json);
         this.success = obj.success;
-        
+
         // reload data user
         this.Users.splice(index, 1);
       });

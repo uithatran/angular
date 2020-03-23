@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { LoginService } from '../../../services/login.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
+  authSubject  =  new  BehaviorSubject(false);
 
   constructor(
     public formBuilder: FormBuilder,
@@ -39,7 +41,9 @@ export class LoginComponent implements OnInit {
       return false;
     } else {
       this.loginService.loginPost(this.loginForm.value).subscribe(
-        ()=> {
+        (res)=> {
+          localStorage.setItem("ACCESS_TOKEN", res.access_token);
+          console.log(res);
           this.router.navigateByUrl('/users')
         }, (error) => {
           console.log(error);
